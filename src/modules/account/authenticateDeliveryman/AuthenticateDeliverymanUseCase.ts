@@ -1,6 +1,7 @@
 import { prisma } from "../../../database/prismaClient"; 
 import { compare } from "bcrypt";
-import { sign } from "jsonwebtoken"
+import { Secret, sign } from "jsonwebtoken"
+import * as dotenv from 'dotenv';
 
 interface IAuthenticateDeliveryman {
   username: string;
@@ -30,8 +31,10 @@ export class AuthenticateDeliverymanUseCase {
       throw new Error("Username or password invalid!")
     }
 
+    dotenv.config();  
+
     // Gerar token
-    const token = await sign({ username }, "a3dcb4d229de6fde0db9856dee47145d", {
+    const token = await sign({ username }, String(process.env.AUTHENTICATE_KEY_DELIVERYMAN), {
       subject: deliveryman.id,
       expiresIn: "1d"
     });
