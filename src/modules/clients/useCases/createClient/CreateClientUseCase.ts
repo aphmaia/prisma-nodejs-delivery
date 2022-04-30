@@ -20,9 +20,7 @@ export class CreateClientUseCase {
       }
     });
 
-    if(clientExists) {
-      console.log(username);
-      console.log(clientExists);
+    if(clientExists) { 
       throw new Error("Client already exists");
     }
 
